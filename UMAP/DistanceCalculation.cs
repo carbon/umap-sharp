@@ -1,4 +1,3 @@
-﻿namespace UMAP
-{
-    public delegate float DistanceCalculation(float[] x, float[] y);
-}
+﻿namespace UMAP;
+
+public delegate float DistanceCalculation(float[] x, float[] y);

@@ -1,11 +1,11 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <PackageId>UMAP</PackageId>
-    <TargetFrameworks>netstandard2.0;netstandard2.1;net7.0</TargetFrameworks>
-    <RootNamespace>UMAP</RootNamespace>
-    <AssemblyName>UMAP</AssemblyName>
-    <Authors>Curiosity GmbH</Authors>
+    <PackageId>Carbon.UMAP</PackageId>
+    <TargetFrameworks>net8.0</TargetFrameworks>
+    <RootNamespace>Carbon.UMAP</RootNamespace>
+    <AssemblyName>Carbon.UMAP</AssemblyName>
+    <Authors>Curiosity GmbH, Jason Nelson</Authors>
     <Company>Curiosity GmbH</Company>
     <Product />
     <Description>C# implementation of "Uniform Manifold Approximation and Projection" (UMAP) for embedding projections.</Description>
@@ -18,8 +18,5 @@
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
   </PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="System.Memory" Version="4.5.5" />
-  </ItemGroup>
 
 </Project>
