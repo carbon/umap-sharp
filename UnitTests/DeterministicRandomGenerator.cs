@@ -1,4 +1,6 @@
-﻿namespace UMAP.UnitTests;
+﻿using Carbon.AI.Umap.UnitTests;
+
+namespace Carbon.AI.Umap.Tests;
 
 public sealed class DeterministicRandomGenerator : IRandomValueProvider
 {

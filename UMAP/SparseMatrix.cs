@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using System.Runtime.CompilerServices;
 
-namespace UMAP;
+namespace Carbon.AI.Umap;
 
 internal sealed class SparseMatrix
 {
@@ -196,30 +196,16 @@ internal sealed class SparseMatrix
         return (indices.ToArray(), values.ToArray(), indptr.ToArray());
     }
 
-    private struct RowCol : IEquatable<RowCol>
+    private readonly struct RowCol(int row, int col) : IEquatable<RowCol>
     {
-        public RowCol(int row, int col)
-        {
-            Row = row;
-            Col = col;
-        }
+        public int Row { get; } = row;
 
-        public int Row { get; }
-        public int Col { get; }
+        public int Col { get; } = col;
 
-        // 2019-06-24 DWR: Structs get default Equals and GetHashCode implementations but they can be slow - having these versions makes the code run much quicker
-        // and it seems a good practice to throw in IEquatable<RowCol> to avoid boxing when Equals is called
         public bool Equals(RowCol other) => (other.Row == Row) && (other.Col == Col);
-        public override bool Equals(object obj) => (obj is RowCol rc) && rc.Equals(this);
-        public override int GetHashCode() // Courtesy of https://stackoverflow.com/a/263416/3813189
-        {
-            unchecked // Overflow is fine, just wrap
-            {
-                int hash = 17;
-                hash = hash * 23 + Row;
-                hash = hash * 23 + Col;
-                return hash;
-            }
-        }
+        
+        public override bool Equals(object obj) => obj is RowCol other && Equals(other);
+
+        public override int GetHashCode() => HashCode.Combine(Row, Col);
     }
 }

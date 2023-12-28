@@ -1,6 +1,6 @@
-﻿using static UMAP.Heaps;
+﻿namespace Carbon.AI.Umap;
 
-namespace UMAP;
+using static Carbon.AI.Umap.Heaps;
 
 internal static class NNDescent
 {

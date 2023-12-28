@@ -1,6 +1,6 @@
 ﻿using System.Runtime.CompilerServices;
 
-namespace UMAP;
+namespace Carbon.AI.Umap;
 
 public sealed class DefaultRandomGenerator : IRandomValueProvider
 {

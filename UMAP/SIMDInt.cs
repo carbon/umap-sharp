@@ -1,7 +1,7 @@
 ﻿using System.Numerics.Tensors;
 using System.Runtime.CompilerServices;
 
-namespace UMAP;
+namespace Carbon.AI.Umap;
 
 internal static class SIMDint
 {  

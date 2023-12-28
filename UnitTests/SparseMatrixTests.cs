@@ -1,3 +1,5 @@
+using Carbon.AI.Umap;
+
 namespace UMAP.UnitTests;
 
 public static class SparseMatrixTests

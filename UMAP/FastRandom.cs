@@ -1,4 +1,4 @@
-﻿namespace UMAP;
+﻿namespace Carbon.AI.Umap;
 
 /// <summary>
 /// A fast random number generator for .NET, from https://www.codeproject.com/Articles/9187/A-fast-equivalent-for-System-Random

@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 
-namespace UMAP;
+namespace Carbon.AI.Umap;
 
 internal static class Tree
 {
@@ -24,7 +24,14 @@ internal static class Tree
         }
         else
         {
-            return new RandomProjectionTreeNode { Indices = indices, LeftChild = null, RightChild = null, IsLeaf = true, Hyperplane = Array.Empty<float>(), Offset = 0 };
+            return new RandomProjectionTreeNode { 
+                Indices = indices,
+                LeftChild = null,
+                RightChild = null,
+                IsLeaf = true,
+                Hyperplane = [],
+                Offset = 0 
+            };
         }
     }
 
@@ -201,7 +208,7 @@ internal static class Tree
         }
         else
         {
-            return new[] { new[] { -1 } };
+            return [[-1]];
         }
     }
 

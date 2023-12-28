@@ -1,4 +1,4 @@
-namespace UMAP.UnitTests;
+namespace Carbon.AI.Umap.UnitTests;
 
 // See https://github.com/zeh/prando/blob/master/src/Prando.ts
 public sealed class Prando

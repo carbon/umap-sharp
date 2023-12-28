@@ -1,8 +1,6 @@
-using System.Numerics.Tensors;
+using UMAP.UnitTests;
 
-using static UMAP.UnitTests.UnitTestData;
-
-namespace UMAP.UnitTests;
+namespace Carbon.AI.Umap.Tests;
 
 public class UmapTests
 {
@@ -10,7 +8,7 @@ public class UmapTests
     public static void StepMethod2D()
     {
         var umap = new Umap(random: new DeterministicRandomGenerator(42));
-        var nEpochs = umap.InitializeFit(TestData);
+        var nEpochs = umap.InitializeFit(UnitTestData.TestData);
         for (var i = 0; i < nEpochs; i++)
         {
             umap.Step();
@@ -18,14 +16,14 @@ public class UmapTests
 
         var embedding = umap.GetEmbedding();
         Assert.Equal(500, nEpochs);
-        AssertNestedFloatArraysEquivalent(TestResults2D, embedding);
+        AssertNestedFloatArraysEquivalent(UnitTestData.TestResults2D, embedding);
     }
 
     [Fact]
     public static void StepMethod3D()
     {
         var umap = new Umap(random: new DeterministicRandomGenerator(42), dimensions: 3);
-        var nEpochs = umap.InitializeFit(TestData);
+        var nEpochs = umap.InitializeFit(UnitTestData.TestData);
         for (var i = 0; i < nEpochs; i++)
         {
             umap.Step();
@@ -33,7 +31,7 @@ public class UmapTests
 
         var embedding = umap.GetEmbedding();
         Assert.Equal(500, nEpochs);
-        AssertNestedFloatArraysEquivalent(TestResults3D, embedding);
+        AssertNestedFloatArraysEquivalent(UnitTestData.TestResults3D, embedding);
     }
 
     [Fact]
@@ -41,10 +39,10 @@ public class UmapTests
     {
         var nNeighbors = 10;
         var umap = new Umap(random: new DeterministicRandomGenerator(42), numberOfNeighbors: nNeighbors);
-        var (knnIndices, knnDistances) = umap.NearestNeighbors(TestData, progress => { });
+        var (knnIndices, knnDistances) = umap.NearestNeighbors(UnitTestData.TestData, progress => { });
 
-        Assert.Equal(knnDistances.Length, TestData.Length);
-        Assert.Equal(knnIndices.Length, TestData.Length);
+        Assert.Equal(knnDistances.Length, UnitTestData.TestData.Length);
+        Assert.Equal(knnIndices.Length, UnitTestData.TestData.Length);
 
         Assert.Equal(knnDistances[0].Length, nNeighbors);
         Assert.Equal(knnIndices[0].Length, nNeighbors);

@@ -1,10 +1,10 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <PackageId>Carbon.UMAP</PackageId>
+    <PackageId>Carbon.AI.Umap</PackageId>
     <TargetFrameworks>net8.0</TargetFrameworks>
-    <RootNamespace>Carbon.UMAP</RootNamespace>
-    <AssemblyName>Carbon.UMAP</AssemblyName>
+    <RootNamespace>Carbon.AI.Umap</RootNamespace>
+    <AssemblyName>Carbon.AI.Umap</AssemblyName>
     <Authors>Curiosity GmbH, Jason Nelson</Authors>
 	  
     <Description>C# implementation of "Uniform Manifold Approximation and Projection" (UMAP) for embedding projections.</Description>

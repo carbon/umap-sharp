@@ -19,11 +19,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\UMAP\Carbon.UMAP.csproj" />
+    <ProjectReference Include="..\UMAP\Carbon.AI.Umap.csproj" />
   </ItemGroup>
 	
   <ItemGroup>
-    <Using Include ="Xunit" />
+    <Using Include="Xunit" />
   </ItemGroup>
 
 </Project>

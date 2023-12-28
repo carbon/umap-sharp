@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 
-namespace UMAP;
+namespace Carbon.AI.Umap;
 
 internal static class Utils
 {

@@ -3,10 +3,10 @@ using System.Numerics.Tensors;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
-using static UMAP.NNDescent;
-using static UMAP.Tree;
+using static Carbon.AI.Umap.Tree;
+using static Carbon.AI.Umap.NNDescent;
 
-namespace UMAP;
+namespace Carbon.AI.Umap;
 
 public sealed class Umap
 {
@@ -173,7 +173,7 @@ public sealed class Umap
         return metricNNDescent(x, leafArray, _nNeighbors, nIters, startingIteration: (i, max) => nnDescendProgressReporter((float)i / max));
 
         // Handle python3 rounding down from 0.5 discrpancy
-        int Round(double n) => (n == 0.5) ? 0 : (int)Math.Floor(Math.Round(n));
+        static int Round(double n) => (n == 0.5) ? 0 : (int)Math.Floor(Math.Round(n));
     }
 
     /// <summary>
