@@ -2,12 +2,12 @@
 
 namespace UMAP;
 
-public sealed class DefaultRandomGenerator : IProvideRandomValues
+public sealed class DefaultRandomGenerator : IRandomValueProvider
 {
     /// <summary>
     /// This is the default configuration (it supports the optimization process to be executed on multiple threads)
     /// </summary>
-    public static DefaultRandomGenerator Instance { get; } = new DefaultRandomGenerator(allowParallel: true);
+    public static DefaultRandomGenerator Default { get; } = new(allowParallel: true);
 
     /// <summary>
     /// This uses the same random number generator but forces the optimization process to run on a single thread (which may be desirable if multiple requests may be processed concurrently
@@ -20,11 +20,23 @@ public sealed class DefaultRandomGenerator : IProvideRandomValues
     public bool IsThreadSafe { get; }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public int Next(int minValue, int maxValue) => ThreadSafeFastRandom.Next(minValue, maxValue);
+    public int Next(int minValue, int maxValue)
+    {
+        return Random.Shared.Next(minValue, maxValue);
+    }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public float NextFloat() => ThreadSafeFastRandom.NextFloat();
+    public float NextFloat()
+    {
+        return Random.Shared.NextSingle();
+    }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public void NextFloats(Span<float> buffer) => ThreadSafeFastRandom.NextFloats(buffer);
+    public void NextFloats(Span<float> buffer)
+    {
+        foreach (ref float value in buffer)
+        {
+            value = Random.Shared.NextSingle();
+        }
+    }
 }

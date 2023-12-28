@@ -19,7 +19,7 @@ internal static class NNDescent
     /// <summary>
     /// Create a version of nearest neighbor descent.
     /// </summary>
-    public static NNDescentFn MakeNNDescent(DistanceCalculation distanceFn, IProvideRandomValues random)
+    public static NNDescentFn MakeNNDescent(DistanceCalculation distanceFn, IRandomValueProvider random)
     {
         return (data, leafArray, nNeighbors, nIters, maxCandidates, delta, rho, rpTreeInit, startingIteration) =>
         {

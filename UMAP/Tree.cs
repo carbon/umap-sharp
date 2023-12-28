@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 
 namespace UMAP;
 
@@ -9,13 +7,13 @@ internal static class Tree
     /// <summary>
     /// Construct a random projection tree based on ``data`` with leaves of size at most ``leafSize``
     /// </summary>
-    public static RandomProjectionTreeNode MakeTree(float[][] data, int leafSize, int n, IProvideRandomValues random)
+    public static RandomProjectionTreeNode MakeTree(float[][] data, int leafSize, int n, IRandomValueProvider random)
     {
         var indices = Enumerable.Range(0, data.Length).ToArray();
         return MakeEuclideanTree(data, indices, leafSize, n, random);
     }
 
-    private static RandomProjectionTreeNode MakeEuclideanTree(float[][] data, int[] indices, int leafSize, int q, IProvideRandomValues random)
+    private static RandomProjectionTreeNode MakeEuclideanTree(float[][] data, int[] indices, int leafSize, int q, IRandomValueProvider random)
     {
         if (indices.Length > leafSize)
         {
@@ -50,7 +48,7 @@ internal static class Tree
     /// the basis for a random projection tree, which simply uses this splitting recursively. This particular split uses euclidean distance to determine the hyperplane and which side each data
     /// sample falls on.
     /// </summary>
-    private static (int[] indicesLeft, int[] indicesRight, float[] hyperplaneVector, float hyperplaneOffset) EuclideanRandomProjectionSplit(float[][] data, int[] indices, IProvideRandomValues random)
+    private static (int[] indicesLeft, int[] indicesRight, float[] hyperplaneVector, float hyperplaneOffset) EuclideanRandomProjectionSplit(float[][] data, int[] indices, IRandomValueProvider random)
     {
         var dim = data[0].Length;
 
@@ -210,7 +208,7 @@ internal static class Tree
     /// <summary>
     /// Searches a flattened rp-tree for a point
     /// </summary>
-    public static int[] SearchFlatTree(float[] point, FlatTree tree, IProvideRandomValues random)
+    public static int[] SearchFlatTree(float[] point, FlatTree tree, IRandomValueProvider random)
     {
         var node = 0;
         while (tree.Children[node][0] > 0)
@@ -232,7 +230,7 @@ internal static class Tree
     /// <summary>
     /// Select the side of the tree to search during flat tree search
     /// </summary>
-    private static int SelectSide(float[] hyperplane, float offset, float[] point, IProvideRandomValues random)
+    private static int SelectSide(float[] hyperplane, float offset, float[] point, IRandomValueProvider random)
     {
         var margin = offset;
         for (var d = 0; d < point.Length; d++)

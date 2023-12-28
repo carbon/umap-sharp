@@ -6,8 +6,7 @@
     <RootNamespace>Carbon.UMAP</RootNamespace>
     <AssemblyName>Carbon.UMAP</AssemblyName>
     <Authors>Curiosity GmbH, Jason Nelson</Authors>
-    <Company>Curiosity GmbH</Company>
-    <Product />
+	  
     <Description>C# implementation of "Uniform Manifold Approximation and Projection" (UMAP) for embedding projections.</Description>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/curiosity-ai/umap-sharp</PackageProjectUrl>
@@ -18,5 +17,8 @@
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="System.Numerics.Tensors" Version="8.0.0" />
+  </ItemGroup>
 
 </Project>

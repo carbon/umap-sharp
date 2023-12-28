@@ -43,32 +43,32 @@ public static class SparseMatrixTests
         var dims = (2, 2);
         var matrix = new SparseMatrix(rows, cols, vals, dims);
         var entries = new List<float[]>();
-        matrix.ForEach((value, row, col) => entries.Add(new float[] { value, row, col }));
-        Assert.Equal(new[] { new[] { 1f, 0f, 0f }, new[] { 3f, 1f, 0f } }, entries.ToArray());
+        matrix.ForEach((value, row, col) => entries.Add([value, row, col]));
+        Assert.Equal([[1f, 0f, 0f], [3f, 1f, 0f]], entries.ToArray());
     }
 
     [Fact]
-    public static void TransposeMethod() => Assert.Equal(new[] { new[] { 1f, 3f }, new[] { 2f, 4f } }, GetTestMatrix().Transpose().ToArray());
+    public static void TransposeMethod() => Assert.Equal([[1f, 3f], new[] { 2f, 4f }], GetTestMatrix().Transpose().ToArray());
 
     [Fact]
-    public static void PairwiseMultiplyMethod() => Assert.Equal(new[] { new[] { 1f, 4f }, new[] { 9f, 16f } }, GetTestMatrix().PairwiseMultiply(GetTestMatrix()).ToArray());
+    public static void PairwiseMultiplyMethod() => Assert.Equal([[1f, 4f], [9f, 16f]], GetTestMatrix().PairwiseMultiply(GetTestMatrix()).ToArray());
 
     [Fact]
-    public static void AddMethod() => Assert.Equal(new[] { new[] { 2f, 4f }, new[] { 6f, 8f } }, GetTestMatrix().Add(GetTestMatrix()).ToArray());
+    public static void AddMethod() => Assert.Equal([[2f, 4f], [6f, 8f]], GetTestMatrix().Add(GetTestMatrix()).ToArray());
 
     [Fact]
-    public static void SubtractMethod() => Assert.Equal(new[] { new[] { 0f, 0f }, new[] { 0f, 0f } }, GetTestMatrix().Subtract(GetTestMatrix()).ToArray());
+    public static void SubtractMethod() => Assert.Equal([[0f, 0f], [0f, 0f]], GetTestMatrix().Subtract(GetTestMatrix()).ToArray());
 
     [Fact]
-    public static void ScalarMultiplyMethod() => Assert.Equal(new[] { new[] { 3f, 6f }, new[] { 9f, 12f } }, GetTestMatrix().MultiplyScalar(3).ToArray());
+    public static void ScalarMultiplyMethod() => Assert.Equal([[3f, 6f], [9f, 12f]], GetTestMatrix().MultiplyScalar(3).ToArray());
 
     [Fact]
     public static void GetCSRMethod()
     {
         var (indices, values, indptr) = GetNormalizationTestMatrix().GetCSR();
-        Assert.Equal(new[] { 0, 1, 2, 0, 1, 2, 0, 1, 2 }, indices);
-        Assert.Equal(new[] { 1f, 2f, 3f, 4f, 5f, 6f, 7f, 8f, 9f }, values);
-        Assert.Equal(new[] { 0, 3, 6 }, indptr);
+        Assert.Equal([0, 1, 2, 0, 1, 2, 0, 1, 2], indices.AsSpan());
+        Assert.Equal([1f, 2f, 3f, 4f, 5f, 6f, 7f, 8f, 9f], values.AsSpan());
+        Assert.Equal([0, 3, 6], indptr.AsSpan());
     }
 
     private static SparseMatrix GetNormalizationTestMatrix()

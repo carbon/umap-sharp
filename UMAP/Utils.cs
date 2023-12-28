@@ -32,7 +32,7 @@ internal static class Utils
     /// <summary>
     /// Generate nSamples many integers from 0 to poolSize such that no integer is selected twice.The duplication constraint is achieved via rejection sampling.
     /// </summary>
-    public static int[] RejectionSample(int nSamples, int poolSize, IProvideRandomValues random)
+    public static int[] RejectionSample(int nSamples, int poolSize, IRandomValueProvider random)
     {
         if(poolSize < nSamples)
         {

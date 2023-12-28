@@ -1,6 +1,6 @@
 ﻿namespace UMAP.UnitTests;
 
-public sealed class DeterministicRandomGenerator : IProvideRandomValues
+public sealed class DeterministicRandomGenerator : IRandomValueProvider
 {
     private readonly Prando _rnd;
     public DeterministicRandomGenerator(int seed) => _rnd = new Prando(seed);

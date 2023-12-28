@@ -1,8 +1,10 @@
+using System.Numerics.Tensors;
+
 using static UMAP.UnitTests.UnitTestData;
 
 namespace UMAP.UnitTests;
 
-public static class UmapTests
+public class UmapTests
 {
     [Fact]
     public static void StepMethod2D()
@@ -69,7 +71,7 @@ public static class UmapTests
             Assert.Equal(expectedRow.Length, actualRow.Length);
             foreach (var (expectedValue, actualValue) in expectedRow.Zip(actualRow, (expectedValue, actualValue) => (expectedValue, actualValue)))
             {
-                Assert.True(Math.Abs(expectedValue - actualValue) < 1e-5);
+                Assert.Equal(expectedValue,  actualValue, 0.0001);
             }
         }
     }

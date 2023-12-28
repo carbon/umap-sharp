@@ -123,7 +123,7 @@ internal static class Heaps
     /// <summary>
     /// Build a heap of candidate neighbors for nearest neighbor descent. For each vertex the candidate neighbors are any current neighbors, and any vertices that have the vertex as one of their nearest neighbors.
     /// </summary>
-    public static Heap BuildCandidates(Heap currentGraph, int nVertices, int nNeighbors, int maxCandidates, IProvideRandomValues random)
+    public static Heap BuildCandidates(Heap currentGraph, int nVertices, int nNeighbors, int maxCandidates, IRandomValueProvider random)
     {
         var candidateNeighbors = MakeHeap(nVertices, maxCandidates);
         for (var i = 0; i < nVertices; i++)
@@ -251,9 +251,13 @@ internal static class Heaps
     public sealed class Heap
     {
         private readonly List<float[][]> _values;
-        public Heap() => _values = new List<float[][]>();
 
-        public float[][] this[int index] { get => _values[index]; }
+        public Heap()
+        {
+            _values = [];
+        }
+
+        public float[][] this[int index] => _values[index];
 
         public void Add(float[][] value) => _values.Add(value);
     }

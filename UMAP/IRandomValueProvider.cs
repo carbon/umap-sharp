@@ -2,7 +2,7 @@
 
 namespace UMAP;
 
-public interface IProvideRandomValues
+public interface IRandomValueProvider
 {
     bool IsThreadSafe { get; }
 

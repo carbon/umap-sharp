@@ -6,7 +6,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tester", "Tester\Tester.csp
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Carbon.UMAP", "UMAP\Carbon.UMAP.csproj", "{52501C71-FC97-41D4-9FDB-379E27271039}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Carbon.UMAP.Tests", "UnitTests\Carbon.UMAP.Tests.csproj", "{CD6B3A5D-1308-49EE-8F0D-D97EB9FAB451}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Carbon.Umap.Tests", "UnitTests\Carbon.Umap.Tests.csproj", "{CD6B3A5D-1308-49EE-8F0D-D97EB9FAB451}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

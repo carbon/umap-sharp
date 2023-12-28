@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Numerics.Tensors;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
@@ -21,7 +22,7 @@ public sealed class Umap
     private readonly float _spread = 1;
 
     private readonly DistanceCalculation _distanceFn;
-    private readonly IProvideRandomValues _random;
+    private readonly IRandomValueProvider _random;
     private readonly int _nNeighbors;
     private readonly int? _customNumberOfEpochs;
     private readonly ProgressReporter _progressReporter;
@@ -47,7 +48,7 @@ public sealed class Umap
 
     public Umap(
         DistanceCalculation distance = null,
-        IProvideRandomValues random = null,
+        IRandomValueProvider random = null,
         int dimensions = 2,
         int numberOfNeighbors = 15,
         int? customNumberOfEpochs = null,
@@ -59,7 +60,7 @@ public sealed class Umap
         }
 
         _distanceFn = distance ?? DistanceFunctions.Cosine;
-        _random = random ?? DefaultRandomGenerator.Instance;
+        _random = random ?? DefaultRandomGenerator.Default;
         _nNeighbors = numberOfNeighbors;
         _optimizationState = new OptimizationState { Dim = dimensions };
         _customNumberOfEpochs = customNumberOfEpochs;
@@ -182,8 +183,8 @@ public sealed class Umap
     /// </summary>
     private SparseMatrix FuzzySimplicialSet(float[][] x, int nNeighbors, float setOpMixRatio, ProgressReporter progressReporter)
     {
-        var knnIndices = _knnIndices ?? new int[0][];
-        var knnDistances = _knnDistances ?? new float[0][];
+        var knnIndices = _knnIndices ?? [];
+        var knnDistances = _knnDistances ?? [];
         progressReporter(0.1f);
         var (sigmas, rhos) = SmoothKNNDistance(knnDistances, nNeighbors, _localConnectivity);
         progressReporter(0.2f);
@@ -629,19 +630,19 @@ public sealed class Umap
 
     public static class DistanceFunctions
     {
-        public static float Cosine(float[] lhs, float[] rhs)
+        public static float Cosine(ReadOnlySpan<float> lhs, ReadOnlySpan<float> rhs)
         {
-            return 1 - (SIMD.DotProduct(ref lhs, ref rhs) / (SIMD.Magnitude(ref lhs) * SIMD.Magnitude(ref rhs)));
+            return 1 - (TensorPrimitives.Dot(lhs, rhs) / (SIMD.Magnitude(lhs) * SIMD.Magnitude(rhs)));
         }
 
-        public static float CosineForNormalizedVectors(float[] lhs, float[] rhs)
+        public static float CosineForNormalizedVectors(ReadOnlySpan<float> lhs, ReadOnlySpan<float> rhs)
         {
-            return 1 - SIMD.DotProduct(ref lhs, ref rhs);
+            return 1 - TensorPrimitives.Dot(lhs, rhs);
         }
 
         public static float Euclidean(float[] lhs, float[] rhs)
         {
-            return (float)Math.Sqrt(SIMD.Euclidean(ref lhs, ref rhs)); // TODO: Replace with netcore3 MathF class when the framework is available
+            return MathF.Sqrt(SIMD.Euclidean(ref lhs, ref rhs)); // TODO: Replace with netcore3 MathF class when the framework is available
         }
     }
 
