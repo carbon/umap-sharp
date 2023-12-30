@@ -7,7 +7,7 @@ internal sealed class SparseMatrix
 {
     private readonly Dictionary<RowCol, float> _entries;
 
-    public SparseMatrix(IEnumerable<int> rows, IEnumerable<int> cols, IEnumerable<float> values, (int rows, int cols) dims) : this(Combine(rows, cols, values), dims) { }
+    public SparseMatrix(int[] rows, int[] cols, float[] values, (int rows, int cols) dims) : this(Combine(rows, cols, values), dims) { }
     
     private SparseMatrix(IEnumerable<(int row, int col, float value)> entries, (int rows, int cols) dims)
     {
@@ -26,11 +26,11 @@ internal sealed class SparseMatrix
         _entries = entries;
     }
 
-    private static IEnumerable<(int row, int col, float value)> Combine(IEnumerable<int> rows, IEnumerable<int> cols, IEnumerable<float> values)
+    private static IEnumerable<(int row, int col, float value)> Combine(int[] rows, int[] cols, float[] values)
     {
-        var rowsArray = rows.ToArray();
-        var colsArray = cols.ToArray();
-        var valuesArray = values.ToArray();
+        var rowsArray = rows;
+        var colsArray = cols;
+        var valuesArray = values;
         if ((rowsArray.Length != valuesArray.Length) || (colsArray.Length != valuesArray.Length))
         {
             throw new ArgumentException($"The input lists {nameof(rows)}, {nameof(cols)} and {nameof(values)} must all have the same number of elements");

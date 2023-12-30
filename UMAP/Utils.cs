@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Numerics.Tensors;
 
 namespace Carbon.AI.Umap;
 
@@ -17,17 +18,27 @@ internal static class Utils
     /// <summary>
     /// Creates an array filled with a specific value
     /// </summary>
-    public static float[] Filled(int count, float value) => Enumerable.Range(0, count).Select(i => value).ToArray();
+    public static float[] Filled(int count, float value)
+    {
+        var result = new float[count];
+
+        result.AsSpan().Fill(value);
+
+        return result;
+    }
 
     /// <summary>
     /// Returns the mean of an array
     /// </summary>
-    public static float Mean(float[] input) => input.Sum() / input.Length;
+    public static float Mean(ReadOnlySpan<float> input)
+    {
+        return TensorPrimitives.Sum(input) / input.Length;
+    }
 
     /// <summary>
     /// Returns the maximum value of an array
     /// </summary>
-    public static float Max(float[] input) => input.Max();
+    public static float Max(ReadOnlySpan<float> input) => TensorPrimitives.Max(input);
 
     /// <summary>
     /// Generate nSamples many integers from 0 to poolSize such that no integer is selected twice.The duplication constraint is achieved via rejection sampling.

@@ -7,13 +7,13 @@ internal static class Tree
     /// <summary>
     /// Construct a random projection tree based on ``data`` with leaves of size at most ``leafSize``
     /// </summary>
-    public static RandomProjectionTreeNode MakeTree(float[][] data, int leafSize, int n, IRandomValueProvider random)
+    public static RandomProjectionTreeNode MakeTree(ReadOnlySpan<float[]> data, int leafSize, int n, IRandomValueProvider random)
     {
         var indices = Enumerable.Range(0, data.Length).ToArray();
         return MakeEuclideanTree(data, indices, leafSize, n, random);
     }
 
-    private static RandomProjectionTreeNode MakeEuclideanTree(float[][] data, int[] indices, int leafSize, int q, IRandomValueProvider random)
+    private static RandomProjectionTreeNode MakeEuclideanTree(ReadOnlySpan<float[]> data, int[] indices, int leafSize, int q, IRandomValueProvider random)
     {
         if (indices.Length > leafSize)
         {
@@ -55,7 +55,7 @@ internal static class Tree
     /// the basis for a random projection tree, which simply uses this splitting recursively. This particular split uses euclidean distance to determine the hyperplane and which side each data
     /// sample falls on.
     /// </summary>
-    private static (int[] indicesLeft, int[] indicesRight, float[] hyperplaneVector, float hyperplaneOffset) EuclideanRandomProjectionSplit(float[][] data, int[] indices, IRandomValueProvider random)
+    private static (int[] indicesLeft, int[] indicesRight, float[] hyperplaneVector, float hyperplaneOffset) EuclideanRandomProjectionSplit(ReadOnlySpan<float[]> data, int[] indices, IRandomValueProvider random)
     {
         var dim = data[0].Length;
 

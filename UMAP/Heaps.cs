@@ -248,7 +248,7 @@ internal static class Heaps
         }
     }
 
-    public sealed class Heap
+    public readonly struct Heap
     {
         private readonly List<float[][]> _values;
 

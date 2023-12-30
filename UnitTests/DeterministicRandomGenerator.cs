@@ -2,10 +2,9 @@
 
 namespace Carbon.AI.Umap.Tests;
 
-public sealed class DeterministicRandomGenerator : IRandomValueProvider
+public sealed class DeterministicRandomGenerator(int seed) : IRandomValueProvider
 {
-    private readonly Prando _rnd;
-    public DeterministicRandomGenerator(int seed) => _rnd = new Prando(seed);
+    private readonly Prando _rnd = new(seed);
 
     public bool IsThreadSafe => false;
 

@@ -1,5 +1,3 @@
-using UMAP.UnitTests;
-
 namespace Carbon.AI.Umap.Tests;
 
 public class UmapTests
@@ -58,7 +56,7 @@ public class UmapTests
         Assert.True(AreCloseEnough(a, expectedA));
         Assert.True(AreCloseEnough(b, expectedB));
 
-        bool AreCloseEnough(float x, float y) => Math.Abs(x - y) < 0.01;
+        static bool AreCloseEnough(float x, float y) => Math.Abs(x - y) < 0.01;
     }
 
     private static void AssertNestedFloatArraysEquivalent(float[][] expected, float[][] actual)

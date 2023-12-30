@@ -172,7 +172,7 @@ public sealed class Umap
         var nnDescendProgressReporter = ScaleProgressReporter(progressReporter, 0.5f, 1);
         return metricNNDescent(x, leafArray, _nNeighbors, nIters, startingIteration: (i, max) => nnDescendProgressReporter((float)i / max));
 
-        // Handle python3 rounding down from 0.5 discrpancy
+        // Handle python3 rounding down from 0.5 discrepancy
         static int Round(double n) => (n == 0.5) ? 0 : (int)Math.Floor(Math.Round(n));
     }
 
@@ -181,7 +181,7 @@ public sealed class Umap
     /// to the data. This is done by locally approximating geodesic distance at each point, creating a fuzzy simplicial set for each such point, and then combining all the local fuzzy
     /// simplicial sets into a global one via a fuzzy union.
     /// </summary>
-    private SparseMatrix FuzzySimplicialSet(float[][] x, int nNeighbors, float setOpMixRatio, ProgressReporter progressReporter)
+    private SparseMatrix FuzzySimplicialSet(ReadOnlySpan<float[]> x, int nNeighbors, float setOpMixRatio, ProgressReporter progressReporter)
     {
         var knnIndices = _knnIndices ?? [];
         var knnDistances = _knnDistances ?? [];
@@ -205,9 +205,14 @@ public sealed class Umap
         return result;
     }
 
-    private static (float[] sigmas, float[] rhos) SmoothKNNDistance(float[][] distances, int k, float localConnectivity = 1, int nIter = 64, float bandwidth = 1)
+    private static (float[] sigmas, float[] rhos) SmoothKNNDistance(
+        ReadOnlySpan<float[]> distances,
+        int k,
+        float localConnectivity = 1,
+        int nIter = 64,
+        float bandwidth = 1)
     {
-        var target = Math.Log(k, 2) * bandwidth; // TODO: Use Math.Log2 (when update framework to a version that supports it) or consider a pre-computed table
+        var target = Math.Log2(k) * bandwidth;
         var rho = new float[distances.Length];
         var result = new float[distances.Length];
         for (var i = 0; i < distances.Length; i++)
@@ -293,7 +298,15 @@ public sealed class Umap
             }
             else
             {
-                var meanDistances = Utils.Mean(distances.Select(Utils.Mean).ToArray());
+                var distanceMeans = new float[distances.Length];
+
+                for (int a = 0; a < distanceMeans.Length; a++)
+                {
+                    distanceMeans[i] = Utils.Mean(distances[i]);
+                }
+
+                var meanDistances = Utils.Mean(distanceMeans);
+
                 if (result[i] < MIN_K_DIST_SCALE * meanDistances)
                 {
                     result[i] = MIN_K_DIST_SCALE * meanDistances;
@@ -343,7 +356,7 @@ public sealed class Umap
     }
 
     /// <summary>
-    /// Initialize a fuzzy simplicial set embedding, using a specified initialisation method and then minimizing the fuzzy set cross entropy between the 1-skeletons of the high and low
+    /// Initialize a fuzzy simplicial set embedding, using a specified initialization method and then minimizing the fuzzy set cross entropy between the 1-skeletons of the high and low
     /// dimensional fuzzy simplicial sets.
     /// </summary>
     private (int[] head, int[] tail, float[] epochsPerSample) InitializeSimplicialSetEmbedding()
@@ -441,7 +454,8 @@ public sealed class Umap
 
     internal static (float a, float b) FindABParams(float spread, float minDist)
     {
-        // 2019-06-21 DWR: If we need to support other spread, minDist values then we might be able to use the LM implementation in Accord.NET but I'll hard code values that relate to the default configuration for now
+        // 2019-06-21 DWR: If we need to support other spread, minDist values then we might be able to use the LM implementation in Accord.NET
+        // but I'll hard code values that relate to the default configuration for now
         if ((spread != 1) || (minDist != 0.1f))
         {
             throw new ArgumentException($"Currently, the {nameof(FindABParams)} method only supports spread, minDist values of 1, 0.1 (the Levenberg-Marquardt algorithm is required to process other values");
@@ -486,7 +500,7 @@ public sealed class Umap
         if (currentEpoch < numberOfEpochsToComplete)
         {
             OptimizeLayoutStep(currentEpoch);
-            if (_progressReporter is object)
+            if (_progressReporter is not null)
             {
                 // InitializeFit roughly approximately takes 80% of the processing time for large quantities of data, leaving 20% for the Step iterations - the progress reporter
                 // calls made here are based on the assumption that Step will be called the recommended number of times (the number-of-epochs value returned from InitializeFit)
@@ -591,7 +605,7 @@ public sealed class Umap
     /// <summary>
     /// Reduced Euclidean distance
     /// </summary>
-    private static float RDist(Span<float> x, Span<float> y)
+    private static float RDist(ReadOnlySpan<float> x, ReadOnlySpan<float> y)
     {
         //return Mosaik.Core.SIMD.Euclidean(ref x, ref y);
         var distSquared = 0f;
@@ -642,7 +656,7 @@ public sealed class Umap
 
         public static float Euclidean(float[] lhs, float[] rhs)
         {
-            return MathF.Sqrt(SIMD.Euclidean(ref lhs, ref rhs)); // TODO: Replace with netcore3 MathF class when the framework is available
+            return MathF.Sqrt(SIMD.Euclidean(ref lhs, ref rhs));
         }
     }
 
